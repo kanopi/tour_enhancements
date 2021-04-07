@@ -1,0 +1,8 @@
+name: Tour Enhancements
+type: module
+description: Additional routes and functionality for Tours.
+package: tour
+core: 8.x
+core_version_requirement: ^8 || ^9
+dependencies:
+  - tour

@@ -1,0 +1,81 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Tour Enhancements module.
+ *
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use \Drupal\tour\Entity\Tour;
+
+/**
+ * Implements hook_help().
+ */
+function tour_enhancements_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the mycustom_tour module.
+    case 'help.page.tour_enhancements':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Additional routes and functionality for Tours.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_page_bottom().
+ *
+ * Thanks to Drupal.org user paper boy.
+ * See https://www.drupal.org/project/drupal/issues/2883096#comment-13262904.
+ *
+ * Add tour to content type specific edit and add form pages.
+ * to create a tour for specific content type add the route:
+ * <content type>.edit_form - ie. article.edit_form.
+ */
+function tour_enhancements_page_bottom(array &$page_bottom) {
+
+  // Make sure user can see tours.
+  if (!\Drupal::currentUser()->hasPermission('access tour')) {
+    return;
+  }
+
+  // Get the current route.
+  $route_match = \Drupal::routeMatch();
+  $route = $route_match->getRouteName();
+
+  // Only add custom tour hooks for node add and node edit pages.
+  // All other "normal" routes still work.
+  if($route !== 'entity.node.edit_form' && $route !== 'node.add') {
+    return;
+  }
+
+  // Get the bundle/aka content type.
+  $params = $route_match->getParameters();
+  $bundle = null;
+
+  // Get the bundle for the node add page.
+  if($nodeType = $params->get('node_type')) {
+    $bundle = $nodeType->get('type');
+  }
+  // Get the bundle for the node edit page.
+  else if($node = $params->get('node')) {
+    $bundle = $node->type->getString();
+  }
+  else {
+    // Couldn't get node type of current route.
+    return;
+  }
+
+  // Check if a tour for this add/edit page exists and display it.
+  $results = \Drupal::entityQuery('tour')
+    ->condition('routes.*.route_name', $bundle . '.edit_form')
+    ->execute();
+  if (!empty($results) && $tours = Tour::loadMultiple(array_keys($results))) {
+    if (!empty($tours)) {
+      $page_bottom['tour'] = \Drupal::entityTypeManager()->getViewBuilder('tour')->viewMultiple($tours, 'full');
+    }
+  }
+}

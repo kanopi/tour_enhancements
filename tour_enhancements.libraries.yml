@@ -1,0 +1,5 @@
+# Custom module library for general purposes.
+tour_enhancements:
+  css:
+    component:
+      css/tour-enhancements.css: {}
