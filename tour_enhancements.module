@@ -3,14 +3,15 @@
 /**
  * @file
  * Primary module hooks for Tour Enhancements module.
- *
  */
 
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\tour\Entity\Tour;
-use Drupal\node\Entity\Node;
 
-/** * Implements hook_page_bottom(). */
+/**
+ * Implements hook_page_bottom().
+ *
+ * Adds a route parameter for bundle type to nodes and node forms.
+ */
 function tour_enhancements_page_bottom(array &$page_bottom) {
   // First thing, check permissions.
   if (!\Drupal::currentUser()->hasPermission('access tour')) {
@@ -28,9 +29,9 @@ function tour_enhancements_page_bottom(array &$page_bottom) {
       // Get the parameters.
       $params = $route_match->getRawParameters()->all();
       // Include 'bundle' as parameter to use as match.
-      // You could also add additional if statements (ie if a node had a specific field).
+      // You could also add additional if (ie if a node had a specific field).
       if ($bundle = $route_match->getParameter('node')) {
-        $params['bundle'] =  $route_match->getParameter('node')->bundle();
+        $params['bundle'] = $route_match->getParameter('node')->bundle();
       }
       // Match on the parameters.
       if (!$tour->hasMatchingRoute($route_name, $params)) {
