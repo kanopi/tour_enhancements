@@ -1,5 +1,5 @@
 {
-  "name": "drupal/tour_enhancements",
+  "name": "kanopi/tour_enhancements",
   "description": "Additional routes and functionality for Tours.",
   "type": "drupal-module",
   "homepage": "https://github.com/kanopi/tour_enhancements",
@@ -11,6 +11,5 @@
     "issues": "https://github.com/kanopi/tour_enhancements/issues",
     "source": "https://github.com/kanopi/tour_enhancements"
   },
-  "license": "GPL-2.0-or-later",
-  "minimum-stability": "dev"
+  "license": "GPL-2.0-or-later"
 }
