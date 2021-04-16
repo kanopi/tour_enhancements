@@ -38,7 +38,8 @@ CONFIGURATION
 Adding Tours
 * To add tours, you can add them in your custom module's config/optional folder
 * Naming should be in the style tour.tour.unique-id.yml
-* You can also add tours in the Drupal admin UI using the Tour UI module.  These tours are saved in the site config.
+* You can also add tours in the Drupal admin UI using the Tour UI module.  These
+ tours are saved in the site config.
 
 Configuring Tours
 * You can add a tour to any route available in Drupal.
