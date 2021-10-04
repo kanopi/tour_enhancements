@@ -6,3 +6,6 @@ core: 8.x
 core_version_requirement: ^8 || ^9
 dependencies:
   - tour
+libraries-extend:
+  tour/tour-styling:
+    - tour_enhancements/tour_enhancements
